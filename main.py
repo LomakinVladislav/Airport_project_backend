@@ -1,17 +1,19 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from api.base import api_router
 
-def create_tables():
-    Base.metadata.create_all(bind = engine)
-
-def include_router(app):
-    app.include_router(api_router)
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    ]
 
 def start_application():
-    app = FastAPI(title = settings.PROJECT_NAME, version = settings.PROJECT_VERSION)
-    origins = [
-        "*"
-    ]
+    
+    app = FastAPI(title = "Airport_project", version="beta")
+    
 
     app.add_middleware(
         CORSMiddleware,
@@ -20,11 +22,12 @@ def start_application():
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    create_tables()
-    include_router(app)
+
+    app.include_router(api_router)
     return app
 
-
 app = start_application()
+
+
 
 

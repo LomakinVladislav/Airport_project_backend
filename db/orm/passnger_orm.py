@@ -2,9 +2,9 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from models import assetModel, clientModel, cryptocurrencyModel
-from database import Base, async_engine
-from schemas import ClientAddSchema
+from db.models.passanger_model import passengerModel
+from db.database import Base, async_engine
+from db.schemas.passenger_schemas import PassengerAddSchema
 
 
 async def create_tables():
@@ -14,18 +14,21 @@ async def create_tables():
     return {"ok": True}
 
 
-async def add_client(data: ClientAddSchema, session: Session):
-    new_client = clientModel(
-        name=data.name,
-        country=data.country
+async def add_passenger(data: PassengerAddSchema, session: Session):
+    new_passenger = passengerModel( 
+        first_name=data.first_name,
+        last_name=data.last_name,
+        age=data.age,
+        gender=data.gender,
+        phone_number=data.phone_number
     )
-    session.add(new_client)
+    session.add(new_passenger)
     await session.commit()
     return {"ok": True}
 
 
-async def get_clients(session: Session):
-    query = select(clientModel)
+async def get_passengers(session: Session):
+    query = select(passengerModel)
     result = await session.execute(query)
     return result.scalars().all()
     
