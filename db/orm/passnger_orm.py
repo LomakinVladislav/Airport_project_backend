@@ -7,13 +7,6 @@ from db.database import Base, async_engine
 from db.schemas.passenger_schemas import PassengerAddSchema
 
 
-async def create_tables():
-    async with async_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-        await conn.run_sync(Base.metadata.create_all)
-    return {"ok": True}
-
-
 async def add_passenger(data: PassengerAddSchema, session: Session):
     new_passenger = passengerModel( 
         first_name=data.first_name,

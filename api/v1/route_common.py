@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends
 from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from db.orm.passnger_orm import create_tables
+from db.orm.common_orm import create_tables
+
 from db.database import get_session
 
 SessionDep = Annotated[AsyncSession, Depends(get_session)]

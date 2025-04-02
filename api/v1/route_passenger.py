@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from db.orm.passnger_orm import create_tables, add_passenger, get_passengers
+from db.orm.passnger_orm import  add_passenger, get_passengers
 from db.schemas.passenger_schemas import PassengerAddSchema
 from db.database import get_session
 

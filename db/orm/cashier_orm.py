@@ -3,7 +3,6 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from db.models.cashier_model import cashierModel
-from db.database import Base, async_engine
 from db.schemas.cashier_schemas import CashierAddSchema
 
 
