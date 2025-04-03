@@ -11,14 +11,8 @@ class ticketModel(Base):
     __tablename__ = "ticket"  
 
     id: Mapped[intpk]
-    flight_id: Mapped[int] = mapped_column(ForeignKey("flight.id"))  # Внешний ключ
     seat: Mapped[str]
-    price: Mapped[int]
     meal: Mapped[bool]
+    price: Mapped[int]
     is_booked: Mapped[bool]
-    
-    # Связь с моделью Passenger (ленивая загрузка по умолчанию)
-    # flight: Mapped["flightModel"] = relationship(back_populates="ticket")
-
-    # Альтернативный вариант с только прямой связью (без обратной)
-    # flight: Mapped["flightModel"] = relationship()
+    flight_id: Mapped[int] = mapped_column(ForeignKey("flight.id"))  # Внешний ключ

@@ -5,6 +5,7 @@ class FlightAddSchema(BaseModel):
     arrival_airport: str
     departure_time: str # Тут 
     arrival_time: str #  и тут найти нормальный формат для хранения даты 
+    ship_id: int
 
 class FlightSchema(FlightAddSchema):
     id: int

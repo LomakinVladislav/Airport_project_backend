@@ -5,6 +5,8 @@ from api.v1 import route_common
 from api.v1 import route_flight
 from api.v1 import route_ship
 from api.v1 import route_ticket
+from api.v1 import route_booking
+
 api_router = APIRouter()
 api_router.include_router(route_common.router,prefix="", tags=["Common_route"])
 api_router.include_router(route_passenger.router,prefix="", tags=["Passnger_route"])
@@ -12,3 +14,4 @@ api_router.include_router(route_cashier.router,prefix="", tags=["Cashier_route"]
 api_router.include_router(route_flight.router,prefix="", tags=["Flight_route"])
 api_router.include_router(route_ship.router, prefix="", tags=["Ship_route"])
 api_router.include_router(route_ticket.router, prefix="", tags=["Ticket_route"])
+api_router.include_router(route_booking.router, prefix="", tags=["Booking_route"])

@@ -12,7 +12,8 @@ async def add_flight(data: FlightAddSchema, session: Session):
         departure_airport=data.departure_airport,
         arrival_airport=data.arrival_airport,
         departure_time=data.departure_time,
-        arrival_time=data.arrival_time
+        arrival_time=data.arrival_time,
+        ship_id = data.ship_id
     )
     session.add(new_flight)
     await session.commit()

@@ -11,5 +11,6 @@ class cashierModel(Base):
     id: Mapped[intpk]
     first_name: Mapped[str]
     last_name: Mapped[str]
+    middle_name: Mapped[str]
     phone_number: Mapped[str]
     inn: Mapped[str]

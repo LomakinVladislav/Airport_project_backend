@@ -10,6 +10,7 @@ async def add_cashier(data: CashierAddSchema, session: Session):
     new_cashier = cashierModel( 
         first_name=data.first_name,
         last_name=data.last_name,
+        middle_name=data.middle_name,
         phone_number=data.phone_number,
         inn=data.inn
     )

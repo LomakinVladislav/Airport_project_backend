@@ -3,9 +3,10 @@ from pydantic import BaseModel
 class PassengerAddSchema(BaseModel):
     first_name: str
     last_name: str
-    age: int
+    middle_name: str
+    birth_date: str
     gender: str
-    phone_number: str
+    passport: str
 
 class PassengerSchema(PassengerAddSchema):
     id: int
