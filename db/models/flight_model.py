@@ -12,6 +12,10 @@ class flightModel(Base):
     id: Mapped[intpk]
     departure_airport: Mapped[str]
     arrival_airport: Mapped[str]
+    departure_date: Mapped[str]  
     departure_time: Mapped[str] # Тут 
+    arrival_date: Mapped[str]
     arrival_time: Mapped[str] #  и тут найти нормальный формат для хранения даты 
     ship_id: Mapped[int] = mapped_column(ForeignKey("ship.id"))  # Внешний ключ
+
+    ticket = relationship("ticketModel", back_populates="flight")
