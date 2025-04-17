@@ -15,3 +15,5 @@ class passengerModel(Base):
     birth_date: Mapped[str]
     gender: Mapped[str]
     passport: Mapped[str]
+    phone_number: Mapped[str]
+

@@ -14,7 +14,8 @@ async def add_passenger(data: PassengerAddSchema, session: Session):
         middle_name = data.middle_name,
         birth_date = data.birth_date,
         gender=data.gender,
-        passport = data.passport
+        passport = data.passport,
+        phone_number = data.phone_number
     )
     session.add(new_passenger)
     await session.commit()
