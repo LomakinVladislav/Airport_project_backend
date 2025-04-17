@@ -11,7 +11,6 @@ class ticketModel(Base):
 
     id: Mapped[intpk]
     seat: Mapped[str]
-    meal: Mapped[bool]
     price: Mapped[int]
     is_booked: Mapped[bool]
     flight_id: Mapped[int] = mapped_column(ForeignKey("flight.id"))  # Внешний ключ

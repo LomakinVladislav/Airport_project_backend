@@ -11,7 +11,6 @@ async def add_ticket(data: TicketAddSchema, session: Session):
     new_ticket = ticketModel( 
         flight_id = data.flight_id,
         seat = data.seat,
-        meal = data.meal,
         price = data.price,
         is_booked = data.is_booked
     )
