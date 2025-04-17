@@ -17,3 +17,4 @@ class passengerModel(Base):
     passport: Mapped[str]
     phone_number: Mapped[str]
 
+    booking = relationship("bookingModel", back_populates="passenger")

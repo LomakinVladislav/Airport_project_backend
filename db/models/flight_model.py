@@ -19,3 +19,4 @@ class flightModel(Base):
     ship_id: Mapped[int] = mapped_column(ForeignKey("ship.id"))  # Внешний ключ
 
     ticket = relationship("ticketModel", back_populates="flight")
+    ship = relationship("shipModel", back_populates="flight")

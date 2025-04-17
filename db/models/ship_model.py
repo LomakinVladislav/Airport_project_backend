@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from db.database import Base
 
 intpk = Annotated[int, mapped_column(primary_key=True)]
@@ -12,3 +12,5 @@ class shipModel(Base):
     type: Mapped[str]
     model: Mapped[str]
     number_of_seats: Mapped[int]
+
+    flight = relationship("flightModel", back_populates="ship")

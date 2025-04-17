@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from db.database import Base
 
 intpk = Annotated[int, mapped_column(primary_key=True)]
@@ -14,3 +14,5 @@ class cashierModel(Base):
     middle_name: Mapped[str]
     phone_number: Mapped[str]
     inn: Mapped[str]
+
+    booking = relationship("bookingModel", back_populates="cashier")
