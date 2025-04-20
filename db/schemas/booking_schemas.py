@@ -1,10 +1,9 @@
 from pydantic import BaseModel
+from db.schemas.passenger_schemas import PassengerAddSchema
 
-class BookingAddSchema(BaseModel):
-    is_bought: bool
-    ticket_id: int
-    cashier_id: int
-    passenger_id: int
+class BookingAddSchema(PassengerAddSchema):
+    flight_id: int
+    seat: str
 
 class BookingSchema(BookingAddSchema):
     id: int

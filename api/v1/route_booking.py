@@ -10,10 +10,12 @@ SessionDep = Annotated[AsyncSession, Depends(get_session)]
 
 router = APIRouter()
 
+
 @router.post("/booking")
 async def add_booking_api(data: BookingAddSchema, session: SessionDep):
     result = await add_booking(data=data, session=session)
     return result
+
 
 @router.get("/bookings")
 async def get_bookings_api(session: SessionDep):

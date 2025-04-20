@@ -10,10 +10,12 @@ SessionDep = Annotated[AsyncSession, Depends(get_session)]
 
 router = APIRouter()
 
+
 @router.post("/passenger")
 async def add_passenger_api(data: PassengerAddSchema, session: SessionDep):
     result = await add_passenger(data=data, session=session)
     return result
+
 
 @router.get("/passengers")
 async def get_passengers_api(session: SessionDep):
