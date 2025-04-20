@@ -1,6 +1,7 @@
 # Файл с описанием функций (методов) для создания запросов и команд базе данных
-from sqlalchemy import select
+from sqlalchemy import select, insert
 from sqlalchemy.orm import Session
+import random
 
 from db.models.ticket_model import ticketModel
 from db.models.flight_model import flightModel
@@ -36,3 +37,37 @@ async def search_tickets(departure_airport, arrival_airport, departure_date, ses
     result = await session.execute(query)
     print(query)
     return result.mappings().all()
+
+
+async def generate_tickets(session: Session, flight_id: int, number_of_seats: int) -> None:
+    seats = []
+    # Определяем набор букв для мест
+    if number_of_seats < 10:
+        letters = ['A', 'B']
+    elif number_of_seats < 100:
+        letters = ['A', 'B', 'C', 'D', 'E', 'F']
+    else:
+        letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    
+    for i in range(number_of_seats):
+        # Вычисляем номер ряда и букву места
+        row_number = (i // len(letters)) + 1
+        letter = letters[i % len(letters)]
+        seat = f"{letter}{row_number}"
+        
+        # Генерируем случайную цену от 100 до 500
+        price = random.randint(100, 500)
+        
+        seats.append({
+            "seat": seat,
+            "price": price,
+            "is_booked": False,
+            "flight_id": flight_id
+        })
+
+    # Массовая вставка записей
+    await session.execute(
+        insert(ticketModel), 
+        seats
+    )
+    await session.commit()

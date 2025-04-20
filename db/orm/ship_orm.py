@@ -21,4 +21,9 @@ async def get_ships(session: Session):
     query = select(shipModel)
     result = await session.execute(query)
     return result.scalars().all()
-    
+
+
+async def get_number_of_seats_by_ship_id(ship_id: int, session: Session):
+    query = select(shipModel.number_of_seats).filter(shipModel.id == ship_id)
+    result = await session.execute(query)
+    return result.scalars().first()
