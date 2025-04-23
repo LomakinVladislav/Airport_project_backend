@@ -18,3 +18,9 @@ async def get_passengers(session: Session):
     query = select(passengerModel)
     result = await session.execute(query)
     return result.scalars().all()
+
+
+async def get_passenger_id(passport: str, session: Session):
+    query = select(passengerModel.id).where(passengerModel.passport == passport)
+    result = await session.execute(query)
+    return result.scalars().first()

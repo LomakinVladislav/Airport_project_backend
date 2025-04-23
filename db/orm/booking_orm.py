@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from db.models.booking_model import bookingModel
 from db.models.ticket_model import ticketModel
 from db.schemas.booking_schemas import BookingAddSchema
-from db.orm.passnger_orm import add_passenger
+from db.orm.passnger_orm import add_passenger, get_passenger_id
 from db.orm.ticket_orm import change_ticket_status, check_ticket_status
 from db.schemas.passenger_schemas import PassengerAddSchema
 
@@ -20,9 +20,12 @@ async def add_booking(data: BookingAddSchema, session: Session):
 
     # Добавить проверку на то, что пользователь уже существуют в БД
     passenger_data = PassengerAddSchema(**data.model_dump())
-
-    # Вызвать функцию добавления пассажира
-    passenger_id = await add_passenger(passenger_data, session=session)
+    
+    passenger_id = await get_passenger_id(passenger_data.passport, session=session)
+    if passenger_id == None:    
+        # Вызвать функцию добавления пассажира
+        passenger_id = await add_passenger(passenger_data, session=session)
+        
 
     # Через flight_id и seat из BookingAddThroughPassengerShema получить из БД ticket_id
     ticket_id = await get_ticket_id_by_flight_id_and_seat(data.flight_id, data.seat, session=session)
