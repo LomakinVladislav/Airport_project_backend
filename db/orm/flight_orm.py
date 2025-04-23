@@ -3,6 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from db.models.flight_model import flightModel
+from db.models.ship_model import shipModel
 from db.database import Base, async_engine
 from db.schemas.flight_schemas import FlightAddSchema
 from db.orm.ticket_orm import generate_tickets
@@ -35,3 +36,21 @@ async def get_flights(session: Session):
     result = await session.execute(query)
     return result.scalars().all()
     
+
+async def search_flights(departure_airport, arrival_airport, departure_date, session: Session):
+    query = (select(flightModel.id.label("flight_id"),
+                    flightModel.departure_airport,
+                    flightModel.arrival_airport,
+                    flightModel.departure_date,
+                    flightModel.arrival_date,
+                    flightModel.departure_time,
+                    flightModel.arrival_time,
+                    shipModel.type.label("ship_type"),
+                    shipModel.number_of_seats).select_from(flightModel)
+                    .join(shipModel)
+                    .filter(flightModel.departure_airport == departure_airport)
+                    .filter(flightModel.arrival_airport == arrival_airport)
+                    .filter(flightModel.departure_date == departure_date))
+    result = await session.execute(query)
+    print(query)
+    return result.mappings().all()

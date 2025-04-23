@@ -8,11 +8,3 @@ class TicketAddSchema(BaseModel):
 
 class TicketSchema(TicketAddSchema):
     id: int
-
-class TicketSearchShema(BaseModel):
-    id: int
-    departure_time: str
-    arrival_time: str
-    ship_type: str
-    number_of_seats: int
-    price: int

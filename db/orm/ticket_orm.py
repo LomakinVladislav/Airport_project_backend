@@ -24,22 +24,6 @@ async def get_tickets(session: Session):
     query = select(ticketModel)
     result = await session.execute(query)
     return result.scalars().all()
-    
-
-async def search_tickets(departure_airport, arrival_airport, departure_date, session: Session):
-    query = select(flightModel.id.label("flight_id"),
-        flightModel.departure_airport,
-        flightModel.arrival_airport,
-        flightModel.departure_time,
-        flightModel.arrival_time,
-        shipModel.type.label("ship_type"),
-        shipModel.number_of_seats,
-        ticketModel.price).select_from(ticketModel).join(flightModel)\
-    .join(shipModel).filter(flightModel.departure_airport == departure_airport)\
-    .filter(flightModel.arrival_airport == arrival_airport).filter(flightModel.departure_date == departure_date)
-    result = await session.execute(query)
-    print(query)
-    return result.mappings().all()
 
 
 async def generate_tickets(session: Session, flight_id: int, number_of_seats: int) -> None:
