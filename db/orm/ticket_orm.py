@@ -28,6 +28,8 @@ async def get_tickets(session: Session):
 
 async def search_tickets(departure_airport, arrival_airport, departure_date, session: Session):
     query = select(flightModel.id.label("flight_id"),
+        flightModel.departure_airport,
+        flightModel.arrival_airport,
         flightModel.departure_time,
         flightModel.arrival_time,
         shipModel.type.label("ship_type"),
@@ -90,3 +92,9 @@ async def change_ticket_status(ticket_id: int, session: Session):
     await session.execute(query)
     await session.commit()
     
+
+async def get_available_tickets(flight_id: int, session: Session):
+    query = (select(ticketModel.seat)
+    .where(ticketModel.flight_id == flight_id))
+    result = await session.execute(query)
+    return result.scalars().all()
