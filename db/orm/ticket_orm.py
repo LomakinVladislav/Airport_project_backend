@@ -79,7 +79,7 @@ async def change_ticket_status(ticket_id: int, session: Session):
 
 async def get_available_tickets(flight_id: int, session: Session):
     query = (select(ticketModel.seat)
-    .where(ticketModel.flight_id == flight_id))
+    .where(ticketModel.flight_id == flight_id)).where(ticketModel.is_booked == False)
     result = await session.execute(query)
     seats = result.scalars().all()
     return [{"value": seat} for seat in seats]
