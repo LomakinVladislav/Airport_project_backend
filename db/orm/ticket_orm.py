@@ -1,5 +1,5 @@
 # Файл с описанием функций (методов) для создания запросов и команд базе данных
-from sqlalchemy import select, insert
+from sqlalchemy import select, insert, update
 from sqlalchemy.orm import Session
 import random
 
@@ -25,6 +25,7 @@ async def get_tickets(session: Session):
     result = await session.execute(query)
     return result.scalars().all()
     
+
 async def search_tickets(departure_airport, arrival_airport, departure_date, session: Session):
     query = select(flightModel.id.label("flight_id"),
         flightModel.departure_time,
@@ -71,3 +72,21 @@ async def generate_tickets(session: Session, flight_id: int, number_of_seats: in
         seats
     )
     await session.commit()
+
+
+async def check_ticket_status(ticket_id: int, session: Session):
+    query = (select(ticketModel.is_booked)
+    .where(ticketModel.id == ticket_id))
+    result = await session.execute(query)
+    return result.scalars().first()
+
+
+async def change_ticket_status(ticket_id: int, session: Session):
+
+    query = (update(ticketModel)
+    .where(ticketModel.id == ticket_id)
+    .values(is_booked=True))
+
+    await session.execute(query)
+    await session.commit()
+    
