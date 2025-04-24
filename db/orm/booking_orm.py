@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 
 from db.models.booking_model import bookingModel
 from db.models.ticket_model import ticketModel
+from db.models.passanger_model import passengerModel
+from db.models.flight_model import flightModel
 from db.schemas.booking_schemas import BookingAddSchema
 from db.orm.passnger_orm import add_passenger, get_passenger_id
 from db.orm.ticket_orm import change_ticket_status, check_ticket_status
@@ -57,3 +59,16 @@ async def get_bookings(session: Session):
     result = await session.execute(query)
     return result.scalars().all()
     
+
+async def search_bookings(passport: str, session: Session):
+    query = (select(flightModel.departure_airport,
+                    flightModel.arrival_airport,
+                    flightModel.departure_date,
+                    ticketModel.seat,
+                    bookingModel.id.label("booking_id"))
+                    .select_from(passengerModel)
+                    .join(bookingModel).join(ticketModel).join(flightModel)
+                    .filter(passengerModel.passport == passport))
+    result = await session.execute(query)
+    print(query)
+    return result.mappings().all()
