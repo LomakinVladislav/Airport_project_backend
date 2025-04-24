@@ -8,7 +8,7 @@ from db.models.passanger_model import passengerModel
 from db.models.flight_model import flightModel
 from db.schemas.booking_schemas import BookingAddSchema
 from db.orm.passnger_orm import add_passenger, get_passenger_id
-from db.orm.ticket_orm import change_ticket_status, check_ticket_status
+from db.orm.ticket_orm import change_ticket_status_true, check_ticket_status, change_ticket_status_false
 from db.schemas.passenger_schemas import PassengerAddSchema
 
 
@@ -36,7 +36,7 @@ async def add_booking(data: BookingAddSchema, session: Session):
     if ticket_status:
         return "Ошибка: этот билет уже забронирован"
     else:
-        await change_ticket_status(ticket_id=ticket_id, session=session)
+        await change_ticket_status_true(ticket_id=ticket_id, session=session)
         
     # Передать ticket_id и passnger_id в функцию ниже:
 
@@ -72,3 +72,20 @@ async def search_bookings(passport: str, session: Session):
     result = await session.execute(query)
     print(query)
     return result.mappings().all()
+
+
+async def delete_booking(booking_id, session: Session):
+    query = select(bookingModel).where(bookingModel.id == booking_id)
+    result = await session.execute(query)
+    booking_to_delete = result.scalars().first()
+
+    if not booking_to_delete:
+        return {"ok": False, "error": "Booking not found"}
+    
+    ticket_id = booking_to_delete.ticket_id
+
+    await session.delete(booking_to_delete)
+    await session.commit()
+
+    await change_ticket_status_false(ticket_id=ticket_id, session=session)
+    return {"ok": True}

@@ -67,7 +67,7 @@ async def check_ticket_status(ticket_id: int, session: Session):
     return result.scalars().first()
 
 
-async def change_ticket_status(ticket_id: int, session: Session):
+async def change_ticket_status_true(ticket_id: int, session: Session):
 
     query = (update(ticketModel)
     .where(ticketModel.id == ticket_id)
@@ -76,6 +76,16 @@ async def change_ticket_status(ticket_id: int, session: Session):
     await session.execute(query)
     await session.commit()
     
+
+async def change_ticket_status_false(ticket_id: int, session: Session):
+
+    query = (update(ticketModel)
+    .where(ticketModel.id == ticket_id)
+    .values(is_booked=False))
+
+    await session.execute(query)
+    await session.commit()
+
 
 async def get_available_tickets(flight_id: int, session: Session):
     query = (select(ticketModel.seat)
